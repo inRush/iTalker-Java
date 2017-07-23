@@ -1,10 +1,9 @@
 package me.inrush.italker.service;
 
-import me.inrush.italker.bean.User;
+import me.inrush.italker.bean.db.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.awt.*;
 
 /**
  * @author inrush
