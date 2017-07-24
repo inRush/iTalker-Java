@@ -2,12 +2,11 @@ package me.inrush.italker.bean.db;
 
 import org.hibernate.annotations.*;
 
-import javax.persistence.*;
 import javax.persistence.CascadeType;
+import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,7 +48,7 @@ public class User {
     private String portrait;
 
     @Column
-    private String describe;
+    private String description;
 
     // 性别有初始值,所以不为空
     @Column(nullable = false)
@@ -157,12 +156,12 @@ public class User {
         this.portrait = portrait;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getSex() {

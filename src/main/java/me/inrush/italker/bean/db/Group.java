@@ -19,7 +19,7 @@ public class Group {
     @Id
     @PrimaryKeyJoinColumn
     // 主键生成存储的类型为UUID
-     @GeneratedValue(generator = "uuid")
+    @GeneratedValue(generator = "uuid")
     // 把uuid的生成器定义为uuid2,uuid2是常规的UUID toString
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     // 不允许更改,不允许为null
@@ -32,7 +32,7 @@ public class Group {
 
     // 群描述
     @Column(nullable = false)
-    private String describe;
+    private String description;
 
     // 群图片
     @Column(nullable = false)
@@ -54,13 +54,11 @@ public class Group {
     // optional 可选为false 的意思是群必须要有一个创建者
     // fetch: 加载方式为FetchType.EAGER:急加载,意思就是加载群的时候必须加载owner的信息
     // cascade: 联级的级别为ALL,所有的更改(删除,更新等) 都将进行关系的更新
-    @ManyToOne(optional = false,fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "ownerId")
     private User owner;
-    @Column(updatable = false,insertable = false,nullable = false)
+    @Column(updatable = false, insertable = false, nullable = false)
     private String ownerId;
-
-
 
 
     public String getId() {
@@ -79,12 +77,28 @@ public class Group {
         this.name = name;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getPicture() {

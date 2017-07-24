@@ -65,7 +65,7 @@ public class Message {
 
     // 一个群可以接收多个消息
     @ManyToOne
-    @JoinColumn(name = "receiverId")
+    @JoinColumn(name = "groupId")
     private Group group;
     @Column(updatable = false,insertable = false)
     private String groupId;

@@ -5,7 +5,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.io.PipedReader;
 import java.time.LocalDateTime;
 
 /**
@@ -34,7 +33,7 @@ public class Apply {
 
     // 对申请信息进行描述
     @Column(nullable = false)
-    private String describe;
+    private String description;
 
     // 附件 可为空
     // 可以附带图片的地址,或者其他
@@ -78,12 +77,12 @@ public class Apply {
         this.id = id;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getAttach() {

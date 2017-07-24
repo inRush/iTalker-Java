@@ -8,9 +8,9 @@
         <!-- 数据库链接驱动 -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <!--链接地址用户名密码 -->
-        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/DB_I_T_PUSH?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>
+        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/DB_ITALKER?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>
         <property name="connection.username">root</property>
-        <property name="connection.password">inrush</property>
+        <!--<property name="connection.password">inrush</property>-->
 
         <!--<property name="connection.url">jdbc:mysql://qiujuer.net:6968/DB_I_T_PUSH?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false</property>-->
 
@@ -55,21 +55,27 @@
         validate: 启动时验证现有schema与你配置的hibernate是否一致，如果不一致就抛出异常，并不做更新
         -->
 
-
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.Group"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.GroupMember"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.User"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.UserFollow"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.Message"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.PushHistory"/>-->
-        <!--<mapping package="net.qiujuer.web.italker.push.bean.db"-->
-        <!--class="net.qiujuer.web.italker.push.bean.db.Apply"/>-->
+        <!--用户表-->
+        <mapping package="me.inrush.italker.bean.db"
+                 class="me.inrush.italker.bean.db.User"/>
+        <!--用户关系表-->
+        <mapping package="me.inrush.italker.bean.db"
+                 class="me.inrush.italker.bean.db.UserFollow"/>
+        <!--群组表-->
+        <mapping package="me.inrush.italker.bean.db"
+                 class="me.inrush.italker.bean.db.Group"/>
+        <!--群组成员表-->
+        <mapping package="me.inrush.italker.bean.db"
+                 class="me.inrush.italker.bean.db.GroupMember"/>
+        <!--消息表-->
+        <mapping package="me.inrush.italker.bean.db"
+                 class="me.inrush.italker.bean.db.Message"/>
+        <!--历史消息表-->
+        <mapping package="me.inrush.italker.bean.db"
+                 class="me.inrush.italker.bean.db.PushHistory"/>
+        <!--申请表-->
+        <mapping package="me.inrush.italker.bean.db"
+                 class="me.inrush.italker.bean.db.Apply"/>
 
     </session-factory>
 </hibernate-configuration>
