@@ -43,8 +43,6 @@ public class UserFollow {
     private String originId;
 
 
-
-
     // 定义关注的目标
     @ManyToOne(optional = false)
     @JoinColumn(name = "targetId")

@@ -43,7 +43,7 @@ public class Message {
 
     // 消息类型
     @Column(nullable = false)
-    private String type;
+    private int type;
 
     // 发送者 不为空
     // 多个消息对应一个发送者
@@ -104,11 +104,11 @@ public class Message {
         this.arttach = arttach;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 

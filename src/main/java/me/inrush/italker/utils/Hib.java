@@ -84,13 +84,9 @@ public class Hib {
             // 提交
             transaction.commit();
         } catch (Exception e) {
-            e.printStackTrace();
             // 回滚
-            try {
-                transaction.rollback();
-            } catch (RuntimeException e1) {
-                e1.printStackTrace();
-            }
+            transaction.rollback();
+            throw e;
         } finally {
             // 无论成功失败，都需要关闭Session
             session.close();
@@ -120,13 +116,9 @@ public class Hib {
             // 提交
             transaction.commit();
         } catch (Exception e) {
-            e.printStackTrace();
             // 回滚
-            try {
-                transaction.rollback();
-            } catch (RuntimeException e1) {
-                e1.printStackTrace();
-            }
+            transaction.rollback();
+            throw e;
         } finally {
             // 无论成功失败，都需要关闭Session
             session.close();
