@@ -39,7 +39,7 @@ public class Message {
 
     // 附件
     @Column
-    private String arttach;
+    private String attach;
 
     // 消息类型
     @Column(nullable = false)
@@ -96,12 +96,12 @@ public class Message {
         this.content = content;
     }
 
-    public String getArttach() {
-        return arttach;
+    public String getAttach() {
+        return attach;
     }
 
-    public void setArttach(String arttach) {
-        this.arttach = arttach;
+    public void setAttach(String attach) {
+        this.attach = attach;
     }
 
     public int getType() {

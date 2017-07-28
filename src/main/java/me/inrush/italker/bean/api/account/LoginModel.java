@@ -13,6 +13,8 @@ public class LoginModel {
     private String account;
     @Expose
     private String password;
+    @Expose
+    private String pushId;
 
     public String getAccount() {
         return account.trim();
@@ -28,6 +30,14 @@ public class LoginModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPushId() {
+        return pushId;
+    }
+
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
     }
 
     /**

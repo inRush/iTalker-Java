@@ -1,12 +1,13 @@
 package me.inrush.italker.factory;
 
+import com.google.common.base.Strings;
 import me.inrush.italker.bean.api.account.LoginModel;
 import me.inrush.italker.bean.api.account.RegisterModel;
 import me.inrush.italker.bean.db.User;
 import me.inrush.italker.utils.Hib;
 import me.inrush.italker.utils.TextUtil;
-import org.hibernate.Session;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -46,10 +47,11 @@ public class UserFactory {
     /**
      * 通过token查询用户信息
      * 只能自己使用,查询的信息是个人的信息,非他人的信息
+     *
      * @param token 令牌
      * @return 用户信息
      */
-    public static User findByToken(String token){
+    public static User findByToken(String token) {
         return Hib.query(session -> (User) session
                 .createQuery("from User where token=:token")
                 .setParameter("token", token)
@@ -58,6 +60,7 @@ public class UserFactory {
 
     /**
      * 使用账号密码登录
+     *
      * @param model 登录信息
      * @return 登录成功的用户
      */
@@ -70,7 +73,7 @@ public class UserFactory {
                 .setParameter("phone", accountStr)
                 .setParameter("password", passwordStr)
                 .uniqueResult());
-        if(user != null){
+        if (user != null) {
             // 对用户的Token进行更新
             user = updateToken(user);
         }
@@ -110,11 +113,60 @@ public class UserFactory {
         // 账户就是手机号
         user.setPhone(account);
 
-        return Hib.query(session -> (User) session.save(user));
+        return Hib.query(session -> {
+            session.save(user);
+            return user;
+        });
+    }
+
+    /**
+     * 绑定当前用户设备的pushId
+     *
+     * @param user   用户
+     * @param pushId 设备Id
+     * @return 用户
+     */
+    public static User bindPushId(User user, String pushId) {
+        if (Strings.isNullOrEmpty(pushId)) {
+            return null;
+        }
+        // 判断是否有其他用户绑定了这个设备
+        // 取消绑定,避免推送出现混乱
+        // 查询列表不能包括自己
+        Hib.queryOnly(session -> {
+            List users = session
+                    .createQuery("from User where lower(pushId)=:pushId and id!=:userId")
+                    .setParameter("pushId", pushId.toLowerCase())
+                    .setParameter("userId", user.getId())
+                    .list();
+            for (Object u : users) {
+                ((User) u).setPushId(null);
+                session.saveOrUpdate(u);
+            }
+        });
+
+        if (pushId.equalsIgnoreCase(user.getId())) {
+            // 如果当前需要绑定的设备Id,之前已经绑定过了,就不需要再进行绑定了
+            return user;
+        } else {
+            // 需要绑定的设置Id,和需要绑定的不同
+            // 给之前的设备推送一条退出的消息
+            if (!Strings.isNullOrEmpty(user.getPushId())) {
+                // TODO 推送一个退出消息
+            }
+
+            // 更新新的设备Id
+            user.setPushId(pushId);
+            return Hib.query(session -> {
+                session.saveOrUpdate(user);
+                return user;
+            });
+        }
     }
 
     /**
      * 对用户的token进行更新
+     *
      * @param user 需要登录的用户
      * @return 登录成功的用户
      */
@@ -145,6 +197,7 @@ public class UserFactory {
 
     /**
      * 处理注册Model信息
+     *
      * @param model 注册信息
      */
     private static void processRegisterModel(RegisterModel model) {
