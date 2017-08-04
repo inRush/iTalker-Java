@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
  */
 // 127.0.0.1/api/account
 @Path("/account")
-public class AccountService {
+public class AccountService extends BaseService {
 
     @POST
     @Path("/login")
@@ -31,7 +31,7 @@ public class AccountService {
         if (user != null) {
             // 如果携带了pushId
             if (!Strings.isNullOrEmpty(model.getPushId())) {
-                return bind(user,model.getPushId());
+                return bind(user, model.getPushId());
             }
 
             // 登录成功
@@ -70,7 +70,7 @@ public class AccountService {
             if (user != null) {
                 // 如果携带了pushId
                 if (!Strings.isNullOrEmpty(model.getPushId())) {
-                    return bind(user,model.getPushId());
+                    return bind(user, model.getPushId());
                 }
                 AccountRspModel rspModel = new AccountRspModel(user);
                 return ResponseModel.buildOk(rspModel);
@@ -90,30 +90,24 @@ public class AccountService {
     @Produces(MediaType.APPLICATION_JSON)
     // 从请求头中获取Token字段
     // 从Url中获取pushId字段
-    public ResponseModel bind(@HeaderParam("token") String token,
-                              @PathParam("pushId") String pushId) {
-
-        if (Strings.isNullOrEmpty(token) ||
-                Strings.isNullOrEmpty(pushId)) {
+    public ResponseModel bind(@PathParam("pushId") String pushId) {
+        if (Strings.isNullOrEmpty(pushId)) {
             return ResponseModel.buildParameterError();
         }
+
         //根据Token获取到相应的用户
-        User user = UserFactory.findByToken(token);
-        if (user != null) {
-            return bind(user,pushId);
-        } else {
-            // token 失效,无法进行绑定
-            return ResponseModel.buildAccountError();
-        }
+        User user = getSelf();
+        return bind(user, pushId);
     }
 
     /**
      * 绑定pushId
-     * @param self 账户
+     *
+     * @param self   账户
      * @param pushId 设备Id
      * @return 响应
      */
-    private ResponseModel bind(User self,String pushId){
+    private ResponseModel bind(User self, String pushId) {
         User user = UserFactory.bindPushId(self, pushId);
         if (user == null) {
             // 绑定失败则是服务器异常
@@ -121,7 +115,7 @@ public class AccountService {
         }
 
         // 返回当前的账户,并且已经绑定了设备Id
-        AccountRspModel rspModel = new AccountRspModel(user,true);
+        AccountRspModel rspModel = new AccountRspModel(user, true);
         return ResponseModel.buildOk(rspModel);
     }
 }

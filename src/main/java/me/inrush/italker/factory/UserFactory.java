@@ -45,6 +45,19 @@ public class UserFactory {
     }
 
     /**
+     * 更新用户到数据库
+     *
+     * @param user 用户
+     * @return 更新后的用户
+     */
+    public static User update(User user) {
+        return Hib.query(session -> {
+            session.saveOrUpdate(user);
+            return user;
+        });
+    }
+
+    /**
      * 通过token查询用户信息
      * 只能自己使用,查询的信息是个人的信息,非他人的信息
      *
@@ -157,10 +170,7 @@ public class UserFactory {
 
             // 更新新的设备Id
             user.setPushId(pushId);
-            return Hib.query(session -> {
-                session.saveOrUpdate(user);
-                return user;
-            });
+            return update(user);
         }
     }
 
@@ -176,10 +186,7 @@ public class UserFactory {
         // 对Token进行一次Base64格式化
         token = TextUtil.encodeBase64(token);
         user.setToken(token);
-        return Hib.query(session -> {
-            session.saveOrUpdate(user);
-            return user;
-        });
+        return update(user);
     }
 
     /**

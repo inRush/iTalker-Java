@@ -45,6 +45,10 @@ public class UserCard {
     }
 
     public UserCard(final User user) {
+        this(user,false);
+    }
+
+    public UserCard(final User user,boolean isFollow) {
         this.id = user.getId();
         this.name = user.getName();
         this.phone = user.getPhone();
